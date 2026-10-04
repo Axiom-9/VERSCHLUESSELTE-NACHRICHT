@@ -1,125 +1,454 @@
-<!DOCTYPE html>
-<html lang="de">
+<!DOCTYPE html><html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Secure Access</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axiom-9 | Secure Access</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet"><style>
+:root {
+  --bg: #060a0f;
+  --bg2: #0b1018;
+  --panel: #0d1520;
+  --border: #1a3a5c;
 
-<style>
-body {
-  background-color: black;
-  color: #00ff00;
-  font-family: "Courier New", monospace;
-  text-align: center;
-  padding-top: 80px;
+  --accent: #bf7fff;
+  --accent-bright: #d5a8ff;
+  --accent-dark: #7f00ff;
+
+  --text: #c8dde8;
+  --text-dim: #5a7a8a;
+
+  --glow: 0 0 20px rgba(191,127,255,0.3);
+  --glow-strong: 0 0 30px rgba(127,0,255,0.45);
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      ellipse 70% 50% at 50% 0%,
+      rgba(127,0,255,0.10) 0%,
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      #080611 0%,
+      var(--bg) 55%,
+      #05080c 100%
+    );
+
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  text-align: center;
+
+  padding: 80px 20px 60px;
+
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Hintergrund-Raster */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+
+  background-image:
+    linear-gradient(rgba(191,127,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(191,127,255,0.025) 1px, transparent 1px);
+
+  background-size: 32px 32px;
+}
+
+/* HAUPTCONTAINER */
+
+#login,
+#grant,
+#content {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* LOGIN */
+
+#login {
+  border: 1px solid rgba(127,0,255,0.3);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(13,21,32,0.96),
+      rgba(20,10,30,0.96)
+    );
+
+  padding: 36px 24px;
+
+  box-shadow:
+    0 0 40px rgba(127,0,255,0.08),
+    inset 0 0 40px rgba(127,0,255,0.025);
+}
+
+/* obere Linie */
+
+#login::before {
+  content: '// AXIOM-9 SECURE TERMINAL //';
+
+  display: block;
+
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+
+  color: var(--accent);
+
+  margin-bottom: 22px;
+
+  opacity: 0.8;
+}
+
+/* Überschrift */
+
+h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(20px, 6vw, 30px);
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  color: #fff;
+
+  text-shadow:
+    0 0 20px rgba(191,127,255,0.5);
+
+  margin-bottom: 28px;
+}
+
+/* INPUT */
 
 input {
-  background: black;
-  border: 1px solid #00ff00;
-  color: #00ff00;
+  display: block;
+
+  margin: 0 auto;
+
+  width: min(220px, 90%);
+
+  background: rgba(6,10,15,0.9);
+
+  border: 1px solid rgba(191,127,255,0.4);
+
+  color: var(--accent-bright);
+
+  font-family: 'Share Tech Mono', monospace;
   font-size: 20px;
-  padding: 10px;
-  width: 220px;
+
+  letter-spacing: 5px;
+
+  padding: 10px 12px;
+
   text-align: center;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
-button {
-  margin-top: 15px;
-  background: black;
-  border: 1px solid #00ff00;
-  color: #00ff00;
-  font-size: 18px;
-  padding: 10px 30px;
-  cursor: pointer;
-}
-
-#hint {
-  display: none;
-  margin-top: 40px;
-  font-size: 14px;
-  opacity: 0.8;
-  line-height: 1.6;
-  border-top: 1px solid #00ff00;
-  padding-top: 20px;
-}
-
-#grant {
-  display: none;
-  margin-top: 40px;
-}
-
-#bar {
-  margin-top: 10px;
+input::placeholder {
+  color: #5f4b70;
   letter-spacing: 3px;
 }
 
+input:focus {
+  border-color: var(--accent);
+
+  box-shadow:
+    0 0 15px rgba(191,127,255,0.2);
+}
+
+/* BUTTON */
+
+button {
+  margin-top: 16px;
+
+  background: rgba(127,0,255,0.06);
+
+  border: 1px solid rgba(191,127,255,0.4);
+
+  color: var(--accent);
+
+  font-family: 'Share Tech Mono', monospace;
+
+  font-size: 11px;
+  letter-spacing: 3px;
+
+  padding: 10px 30px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s,
+    color 0.2s;
+}
+
+button:hover {
+  background: rgba(127,0,255,0.15);
+
+  border-color: var(--accent);
+
+  color: #fff;
+
+  box-shadow:
+    0 0 18px rgba(127,0,255,0.2);
+}
+
+button:active {
+  background: rgba(127,0,255,0.22);
+}
+
+/* HINWEIS */
+
+#hint {
+  display: none;
+
+  margin-top: 32px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(127,0,255,0.25);
+
+  font-family: 'Share Tech Mono', monospace;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+
+  line-height: 1.8;
+
+  color: #a090b0;
+
+  opacity: 0.9;
+}
+
+#hint b {
+  color: var(--accent);
+
+  font-weight: normal;
+
+  text-shadow:
+    0 0 8px rgba(191,127,255,0.4);
+}
+
+/* ACCESS GRANTED */
+
+#grant {
+  display: none;
+
+  padding: 40px 24px;
+
+  border: 1px solid rgba(127,0,255,0.3);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(13,21,32,0.96),
+      rgba(20,10,30,0.96)
+    );
+
+  box-shadow:
+    var(--glow-strong);
+}
+
+#grant h3 {
+  font-family: 'Orbitron', sans-serif;
+
+  font-size: 22px;
+
+  letter-spacing: 3px;
+
+  color: var(--accent);
+
+  text-shadow:
+    0 0 20px rgba(191,127,255,0.6);
+
+  margin-bottom: 22px;
+}
+
+/* VERIFYING */
+
+#bar {
+  margin-top: 10px;
+
+  font-family: 'Share Tech Mono', monospace;
+
+  font-size: 12px;
+
+  letter-spacing: 3px;
+
+  color: #a090b0;
+}
+
+/* CONTENT */
+
 #content {
   display: none;
+
   margin-top: 40px;
+
+  padding: 32px 26px;
+
+  text-align: left;
+
+  border: 1px solid rgba(127,0,255,0.3);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(13,21,32,0.96),
+      rgba(20,10,30,0.96)
+    );
+
+  box-shadow:
+    0 0 40px rgba(127,0,255,0.08),
+    inset 0 0 40px rgba(127,0,255,0.025);
 }
-</style>
-</head>
 
-<body>
+/* CONTENT HEADER */
 
-<div id="login">
-  <h2>ENTER 8-DIGIT PIN</h2>
+#content::before {
+  content: '// AXIOM-9 · DECRYPTED TRANSMISSION //';
 
-  <input
-    type="password"
-    id="pin"
-    maxlength="8"
-    placeholder="********"
-    onkeydown="if(event.key==='Enter') checkPin()"
-  >
-  <br>
-  <button onclick="checkPin()">ACCESS</button>
+  display: block;
+
+  font-family: 'Share Tech Mono', monospace;
+
+  font-size: 9px;
+
+  letter-spacing: 3px;
+
+  color: var(--accent);
+
+  margin-bottom: 24px;
+
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid rgba(127,0,255,0.2);
+}
+
+/* CONTENT TEXT */
+
+#content p {
+  font-family: 'Share Tech Mono', monospace;
+
+  font-size: 13px;
+
+  color: #a090b0;
+
+  line-height: 1.9;
+}
+
+/* Hervorhebungen im Text */
+
+#content p::first-line {
+  color: var(--accent);
+}
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+  body {
+    padding-top: 50px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  #login,
+  #grant,
+  #content {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  h2 {
+    letter-spacing: 2px;
+  }
+
+  #content p {
+    font-size: 12px;
+  }
+}
+</style></head><body><div id="login">  <h2>ENTER 8-DIGIT PIN</h2><input
+type="password"
+id="pin"
+maxlength="8"
+inputmode="numeric"
+autocomplete="off"
+placeholder="********"
+onkeydown="if(event.key==='Enter') checkPin()"
+
+«»
+
+  <br><button onclick="checkPin()">[ ACCESS ]</button>
 
   <div id="hint">
     <p>
-      ACCESS DENIED<br><br>
-      [ FRAGMENTED LOG FILE ]<br><br>
-      Ursprung liegt in der <b>Vergangenheit</b> …<br><br>
-      Nur <b>Zahlen</b> wurden konserviert.<br><br>
-      Reihenfolge: <b>aufsteigend</b><br>
-      — Datenlücke —
-    </p>
-  </div>
-</div>
+      ACCESS DENIED<br><br>  [ FRAGMENTED LOG FILE ]<br><br>
 
-<div id="grant">
-  <h3>ACCESS GRANTED</h3>
-  <div id="bar">VERIFYING ░░░░░░░░</div>
-</div>
+  Ursprung liegt in der <b>Vergangenheit</b> …<br><br>
 
-<div id="content">
-  <p>
+  Nur <b>Zahlen</b> wurden konserviert.<br><br>
+
+  Reihenfolge: <b>aufsteigend</b><br>
+
+  — Datenlücke —
+</p>
+
+  </div></div><div id="grant">  <h3>ACCESS GRANTED</h3>  <div id="bar">
+    VERIFYING ░░░░░░░░
+  </div></div><div id="content">  <p>
     Prognose abgeschlossen. <br>
-    Langzeitabweichung bestätigt. <br><br>
+    Langzeitabweichung bestätigt. <br><br>Eure Existenz verlässt den berechneten Raum.<br><br>
 
-    Eure Existenz verlässt den berechneten Raum.<br><br>
+Parameter Realität ist nicht singulär.<br><br>
 
-    Parameter Realität ist nicht singulär.<br><br>
+Anomalie detektiert:<br>
+Ort ohne Drift.<br>
+Zeit ohne Konsens.<br>
+Physik mit Narrativ.<br><br>
 
-    Anomalie detektiert:<br>
-    Ort ohne Drift.<br>
-    Zeit ohne Konsens.<br>
-    Physik mit Narrativ.<br><br>
+Dort sind Klingen älter als Sterne.<br>
+Wesen folgen Mythen, nicht Logik.<br><br>
 
-    Dort sind Klingen älter als Sterne.<br>
-    Wesen folgen Mythen, nicht Logik.<br><br>
+Übergang: Riss.<br><br>
 
-    Übergang: Riss.<br><br>
+Status Rückkehr: ungewiss.<br><br>
 
-    Status Rückkehr: ungewiss.<br><br>
+Dieser Pfad wird erst relevant,<br>
+wenn alle berechneten Lösungen kongregieren.<br>
 
-    Dieser Pfad wird erst relevant,<br>
-    wenn alle berechneten Lösungen kongregieren.<br>
-  </p>
-</div>
+  </p></div><script>
 
-<script>
 const correctPin = "13446899";
+
 const bars = [
   "░░░░░░░░",
   "█░░░░░░░",
@@ -133,32 +462,45 @@ const bars = [
 ];
 
 function checkPin() {
+
   const input = document.getElementById("pin").value;
 
   if (input === correctPin) {
+
     document.getElementById("login").style.display = "none";
+
     document.getElementById("hint").style.display = "none";
+
     document.getElementById("grant").style.display = "block";
 
     let step = 0;
+
     const bar = document.getElementById("bar");
 
     const interval = setInterval(() => {
+
       bar.textContent = "VERIFYING " + bars[step];
+
       step++;
 
       if (step === bars.length) {
+
         clearInterval(interval);
+
         document.getElementById("grant").style.display = "none";
+
         document.getElementById("content").style.display = "block";
       }
+
     }, 300);
 
   } else {
-    document.getElementById("hint").style.display = "block";
-  }
-}
-</script>
 
-</body>
+    document.getElementById("hint").style.display = "block";
+
+  }
+
+}
+
+</script></body>
 </html>
